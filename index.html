@@ -7,17 +7,22 @@
     <meta name="color-scheme" content="dark light" />
     <script>
       (function () {
+        var bg = "#050508";
         try {
           var stored = localStorage.getItem("minutemind-theme");
           var light = stored
             ? stored === "light"
             : window.matchMedia("(prefers-color-scheme: light)").matches;
           if (light) {
+            bg = "#f5f5fa";
             document.documentElement.classList.add("light");
             document.documentElement.style.colorScheme = "light";
-            document.documentElement.style.background = "#f5f5fa";
+            document
+              .querySelector('meta[name="theme-color"]')
+              ?.setAttribute("content", "#f5f5fa");
           }
         } catch (e) {}
+        document.documentElement.style.background = bg;
       })();
     </script>
     <meta
@@ -45,7 +50,7 @@
     <meta name="twitter:image" content="https://minutemind.ricothen.com/og-image.png" />
     <title>MinuteMind — AI Meeting Intelligence</title>
   </head>
-  <body style="background: #050507">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
