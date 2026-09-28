@@ -48,9 +48,9 @@ Scripts: `npm run dev` · `npm run build` (typecheck + build) · `npm run typech
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `LLM_API_BASE_URL` | unless `MOCK_MODE=true` | Base URL of an OpenAI-compatible API, e.g. `https://api.groq.com/openai/v1` |
+| `LLM_API_BASE_URL` | unless `MOCK_MODE=true` | Base URL of an OpenAI-compatible API, e.g. `https://api.openai.com/v1` |
 | `LLM_API_KEY` | unless `MOCK_MODE=true` | API key — server-side only, never exposed to the browser |
-| `LLM_MODEL` | unless `MOCK_MODE=true` | Model name, e.g. `openai/gpt-oss-120b` on Groq |
+| `LLM_MODEL` | unless `MOCK_MODE=true` | Model name, e.g. `gpt-4o-mini` on OpenAI |
 | `MOCK_MODE` | no | `true` → skip the LLM entirely and return the pre-baked demo extraction |
 
 All variables are read by the serverless function only. Nothing is prefixed with `VITE_`, so nothing leaks to the client bundle.
