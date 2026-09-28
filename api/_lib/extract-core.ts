@@ -1,18 +1,18 @@
-import { countWords, LIMITS, type ExtractErrorCode, type ExtractMeta } from "../../shared/contract";
+import { countWords, LIMITS, type ExtractErrorCode, type ExtractMeta } from "../../shared/contract.js";
 import {
   nullIfSentinel,
   extractionSchema,
   type ExtractionResult,
   type FollowUpEmail,
-} from "../../shared/schema";
+} from "../../shared/schema.js";
 import {
   chunkTranscript,
   chunkUserPrompt,
   mergeUserPrompt,
   SYSTEM_PROMPT,
   transcriptUserPrompt,
-} from "./prompts";
-import { getMockResult } from "./mock-result";
+} from "./prompts.js";
+import { getMockResult } from "./mock-result.js";
 import {
   callChatCompletion,
   llmTimeoutSignal,
@@ -20,7 +20,7 @@ import {
   parseJsonLoose,
   sleep,
   type LlmConfig,
-} from "./llm";
+} from "./llm.js";
 
 export interface ExtractEnv {
   mock: boolean;

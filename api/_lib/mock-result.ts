@@ -1,10 +1,10 @@
-import { SAMPLES } from "../../shared/samples";
-import type { ExtractionResult } from "../../shared/schema";
-import { STANDUP_RESULT } from "./mock/standup";
-import { RETRO_RESULT } from "./mock/retro";
-import { KICKOFF_RESULT } from "./mock/kickoff";
-import { POSTMORTEM_RESULT } from "./mock/postmortem";
-import { DESIGN_REVIEW_RESULT } from "./mock/design-review";
+import { SAMPLES } from "../../shared/samples.js";
+import type { ExtractionResult } from "../../shared/schema.js";
+import { STANDUP_RESULT } from "./mock/standup.js";
+import { RETRO_RESULT } from "./mock/retro.js";
+import { KICKOFF_RESULT } from "./mock/kickoff.js";
+import { POSTMORTEM_RESULT } from "./mock/postmortem.js";
+import { DESIGN_REVIEW_RESULT } from "./mock/design-review.js";
 
 const RESULTS_BY_SAMPLE_ID: Record<string, ExtractionResult> = {
   standup: STANDUP_RESULT,

@@ -1,4 +1,4 @@
-import { LIMITS } from "../../shared/contract";
+import { LIMITS } from "../../shared/contract.js";
 
 export const SCHEMA_HINT = `{
   "summary": ["string"],

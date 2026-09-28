@@ -1,4 +1,4 @@
-import type { LlmConfig } from "./llm";
+import type { LlmConfig } from "./llm.js";
 
 export interface AppEnv {
   mock: boolean;

@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { parseRequestBody, statusForErrorCode, type ExtractResponse } from "../shared/contract";
-import { ExtractError, runExtraction } from "./_lib/extract-core";
-import { readEnv } from "./_lib/env";
+import { parseRequestBody, statusForErrorCode, type ExtractResponse } from "../shared/contract.js";
+import { ExtractError, runExtraction } from "./_lib/extract-core.js";
+import { readEnv } from "./_lib/env.js";
 
 /**
  * MinuteMind extraction endpoint.

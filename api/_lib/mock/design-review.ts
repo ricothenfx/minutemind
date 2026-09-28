@@ -1,4 +1,4 @@
-import type { ExtractionResult } from "../../../shared/schema";
+import type { ExtractionResult } from "../../../shared/schema.js";
 
 /**
  * Pre-baked extraction result for MOCK_MODE, keyed to the "Design review"

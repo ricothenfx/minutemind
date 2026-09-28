@@ -41,7 +41,7 @@ export interface ExtractMeta {
 
 export interface ExtractSuccess {
   ok: true;
-  data: import("./schema").ExtractionResult;
+  data: import("./schema.js").ExtractionResult;
   meta: ExtractMeta;
 }
 
