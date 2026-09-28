@@ -4,7 +4,22 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("minutemind-theme");
+          var light = stored
+            ? stored === "light"
+            : window.matchMedia("(prefers-color-scheme: light)").matches;
+          if (light) {
+            document.documentElement.classList.add("light");
+            document.documentElement.style.colorScheme = "light";
+            document.documentElement.style.background = "#f5f5fa";
+          }
+        } catch (e) {}
+      })();
+    </script>
     <meta
       name="description"
       content="MinuteMind turns messy meeting transcripts into decisions, action items and a ready-to-send follow-up email — every claim grounded in an exact quote."
