@@ -10,7 +10,12 @@ const ownerSchema = z
 const dueSchema = ownerSchema;
 
 export const prioritySchema = z.preprocess(
-  (v) => (typeof v === "string" ? v.toLowerCase().trim() : v),
+  (v) => {
+    if (typeof v !== "string") return v;
+    const lowered = v.toLowerCase().trim();
+    // Models sometimes emit "null"/"n/a"/"" as a string instead of JSON null.
+    return lowered === "" || NULL_SENTINEL.test(lowered) ? null : lowered;
+  },
   z.enum(["high", "medium", "low"]).nullable(),
 );
 
@@ -24,7 +29,7 @@ export const actionItemSchema = z.object({
   task: nonEmpty,
   owner: dueSchema,
   due: dueSchema,
-  priority: prioritySchema.nullable(),
+  priority: prioritySchema,
   quote: nonEmpty,
 });
 

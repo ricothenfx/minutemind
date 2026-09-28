@@ -1,7 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { ServerResponse } from "node:http";
-import { defineConfig, type Connect, type Plugin } from "vite";
+import { defineConfig, loadEnv, type Connect, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { parseRequestBody, EXTRACT_ENDPOINT, LIMITS, statusForErrorCode, type ExtractResponse } from "./shared/contract";
@@ -17,6 +17,10 @@ function minuteMindApiPlugin(): Plugin {
   return {
     name: "minutemind-api",
     configureServer(server) {
+      // Vite does not put .env values into process.env, so load them here for
+      // the dev middleware. Real process.env still takes precedence; on Vercel
+      // the serverless function in api/extract.ts reads process.env directly.
+      const envSource = loadEnv(server.config.mode, here, "");
       server.middlewares.use(EXTRACT_ENDPOINT, (req, res) => {
         if (req.method !== "POST") {
           res.statusCode = 405;
@@ -40,7 +44,7 @@ function minuteMindApiPlugin(): Plugin {
               );
             }
           })
-          .then((transcript) => runExtraction(transcript, readEnv()))
+          .then((transcript) => runExtraction(transcript, readEnv(envSource)))
           .then((outcome) => {
             sendJson(res, 200, { ok: true, data: outcome.result, meta: outcome.meta });
           })
