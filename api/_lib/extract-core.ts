@@ -12,7 +12,7 @@ import {
   SYSTEM_PROMPT,
   transcriptUserPrompt,
 } from "./prompts";
-import { MOCK_RESULT } from "./mock-result";
+import { getMockResult } from "./mock-result";
 import {
   callChatCompletion,
   llmTimeoutSignal,
@@ -65,7 +65,7 @@ export async function runExtraction(raw: string, env: ExtractEnv): Promise<Extra
   }
 
   if (env.mock) {
-    return { result: MOCK_RESULT, meta: { mock: true, chunks: 1 } };
+    return { result: getMockResult(transcript), meta: { mock: true, chunks: 1 } };
   }
   if (!env.llm) {
     throw new ExtractError(

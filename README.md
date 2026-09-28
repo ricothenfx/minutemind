@@ -11,7 +11,7 @@ One page. Stateless. No auth, no database, no integrations — paste a transcrip
 - **Follow-up email** — realistic email preview with subject line, copy buttons per field.
 - **Long transcripts** — inputs beyond ~12k tokens are split at line boundaries, extracted in parallel, then merged (deduplicated) — never silently truncated. The UI stays responsive; a 10k-word paste is fine.
 - **Defensive LLM layer** — strict JSON schema validated with Zod, markdown-fence/trailing-comma tolerant parsing, 3 attempts per call, deterministic local merge fallback, and honest designed error states (too short, garbage input, API failure).
-- **MOCK_MODE** — run the whole product with zero API keys using a pre-baked extraction of the sample transcript.
+- **MOCK_MODE** — run the whole product with zero API keys using pre-baked extractions of the bundled sample transcripts.
 - **Copy all as Markdown / Download .md / New meeting** — results are portable.
 
 ## Run locally
@@ -30,9 +30,9 @@ cp .env.example .env   # set LLM_API_BASE_URL, LLM_API_KEY, LLM_MODEL
 npm run dev
 ```
 
-Open http://localhost:5173, click **Load sample transcript**, then **Extract decisions & action items**.
+Open http://localhost:5173, pick one of the **five example transcripts** (product standup, sprint retro, client kickoff, incident postmortem, design review), then click **Extract decisions & action items**.
 
-`MOCK_MODE=true` returns a pre-baked result (based on the bundled sample transcript) regardless of which text you paste — perfect for demos and UI work.
+`MOCK_MODE=true` returns a pre-baked, fully grounded result for each bundled sample transcript regardless of which text you paste — perfect for demos and UI work.
 
 > The dev server serves the API through a Vite middleware that runs the exact same pipeline as the production serverless function — no Vercel CLI needed.
 
@@ -74,15 +74,17 @@ api/
     llm.ts            # OpenAI-compatible chat-completions client, tolerant JSON parsing
     prompts.ts        # system/user prompts + transcript chunker
     env.ts            # server env parsing
-    mock-result.ts    # pre-baked MOCK_MODE extraction (quotes the sample fixture verbatim)
+    mock-result.ts    # pre-baked MOCK_MODE extractions, one per sample (quotes the sample verbatim)
+    mock/             # the five pre-baked sample results
 shared/               # contract between client and server
   schema.ts           # Zod schema = the single source of truth for the output JSON
   contract.ts         # request/response envelope, limits, error codes
+  samples.ts          # the five example transcripts (used by the UI picker and MOCK_MODE)
   markdown.ts         # results → Markdown (copy/download)
 src/
   components/         # UI only — no LLM logic
   lib/client-api.ts   # typed fetch wrapper + clipboard/download helpers
-  fixtures/           # the sample transcript
+  fixtures/           # backwards-compatible re-export of the sample transcripts
 ```
 
 ## Output schema

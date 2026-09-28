@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { ClipboardPaste, Sparkles, TriangleAlert } from "lucide-react";
+import { Sparkles, TriangleAlert } from "lucide-react";
 import { LIMITS, countWords } from "../../shared/contract";
-import { SAMPLE_TRANSCRIPT } from "../fixtures/sample-transcript";
+import { SAMPLES } from "../../shared/samples";
 
 interface InputViewProps {
   transcript: string;
@@ -12,6 +12,10 @@ interface InputViewProps {
 
 export function InputView({ transcript, onTranscriptChange, onSubmit }: InputViewProps) {
   const words = useMemo(() => countWords(transcript), [transcript]);
+  const loadedSampleId = useMemo(
+    () => SAMPLES.find((s) => s.transcript === transcript)?.id ?? null,
+    [transcript],
+  );
   const tooShort = transcript.trim().length > 0 && (words < LIMITS.minWords || transcript.length < LIMITS.minChars);
   const tooLong = transcript.length > LIMITS.maxChars;
   const canSubmit = words >= LIMITS.minWords && transcript.length >= LIMITS.minChars && !tooLong;
@@ -89,6 +93,35 @@ export function InputView({ transcript, onTranscriptChange, onSubmit }: InputVie
       </motion.div>
 
       <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: "easeOut", delay: 0.22 }}
+        className="mt-4 flex flex-wrap items-center justify-center gap-2"
+        role="group"
+        aria-label="Example transcripts"
+      >
+        <span className="text-xs uppercase tracking-[0.18em] text-zinc-600">Try an example</span>
+        {SAMPLES.map((sample) => {
+          const active = loadedSampleId === sample.id;
+          return (
+            <button
+              key={sample.id}
+              type="button"
+              onClick={() => onTranscriptChange(sample.transcript)}
+              aria-pressed={active}
+              className={`rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-200 active:scale-[0.97] ${
+                active
+                  ? "border-accent-400/50 bg-accent-400/10 text-accent-200"
+                  : "border-white/10 bg-white/[0.03] text-zinc-400 hover:border-white/20 hover:bg-white/[0.07] hover:text-zinc-200"
+              }`}
+            >
+              {sample.label}
+            </button>
+          );
+        })}
+      </motion.div>
+
+      <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut", delay: 0.26 }}
@@ -98,20 +131,12 @@ export function InputView({ transcript, onTranscriptChange, onSubmit }: InputVie
           {(tooShort || tooLong) && <TriangleAlert className="size-3.5 shrink-0 text-amber-300/80" />}
           <p className={hintTone}>{hint}</p>
         </div>
-        <div className="order-1 flex w-full flex-col gap-2.5 sm:order-2 sm:w-auto sm:flex-row sm:items-center">
-          <button
-            type="button"
-            onClick={() => onTranscriptChange(SAMPLE_TRANSCRIPT)}
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-medium text-zinc-300 transition-all duration-200 hover:border-white/20 hover:bg-white/[0.07] active:scale-[0.98]"
-          >
-            <ClipboardPaste className="size-4 text-zinc-500" />
-            Load sample transcript
-          </button>
+        <div className="order-1 w-full sm:order-2 sm:w-auto">
           <button
             type="button"
             disabled={!canSubmit}
             onClick={() => canSubmit && onSubmit(transcript)}
-            className="cta inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white"
+            className="cta inline-flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold text-white"
           >
             <Sparkles className="size-4" />
             Extract decisions &amp; action items
