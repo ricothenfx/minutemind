@@ -1,5 +1,11 @@
 # MinuteMind — AI Meeting Intelligence
 
+**🔗 Live demo: [minutemind.ricothen.com](https://minutemind.ricothen.com)** — pick an example transcript and extract, or paste your own.
+
+![MinuteMind input view](assets/screenshot-hero.png)
+
+![MinuteMind results view](assets/screenshot-results.png)
+
 MinuteMind turns messy meeting transcripts into clear, actionable output: a three-bullet summary, the decisions made, the action items with owners and deadlines, the open questions, and a ready-to-send follow-up email. The differentiator is **grounded output** — every extracted item carries the exact verbatim quote from the transcript it came from, so you can verify the AI didn't hallucinate. **AI extracts. You verify.**
 
 One page. Stateless. No auth, no database, no integrations — paste a transcript, get structure.
@@ -42,9 +48,9 @@ Scripts: `npm run dev` · `npm run build` (typecheck + build) · `npm run typech
 
 | Variable | Required | Description |
 | --- | --- | --- |
-| `LLM_API_BASE_URL` | unless `MOCK_MODE=true` | Base URL of an OpenAI-compatible API, e.g. `https://api.openai.com/v1` |
+| `LLM_API_BASE_URL` | unless `MOCK_MODE=true` | Base URL of an OpenAI-compatible API, e.g. `https://api.groq.com/openai/v1` |
 | `LLM_API_KEY` | unless `MOCK_MODE=true` | API key — server-side only, never exposed to the browser |
-| `LLM_MODEL` | unless `MOCK_MODE=true` | Model name, e.g. `gpt-4o-mini` |
+| `LLM_MODEL` | unless `MOCK_MODE=true` | Model name, e.g. `openai/gpt-oss-120b` on Groq |
 | `MOCK_MODE` | no | `true` → skip the LLM entirely and return the pre-baked demo extraction |
 
 All variables are read by the serverless function only. Nothing is prefixed with `VITE_`, so nothing leaks to the client bundle.
